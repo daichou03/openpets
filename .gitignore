@@ -24,3 +24,4 @@ third-parties/
 .slim/clonedeps/repos/
 # END oh-my-opencode-slim clonedeps
 .capture/
+openpets-build.log

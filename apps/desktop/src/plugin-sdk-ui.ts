@@ -316,7 +316,16 @@ export function createPluginUiApi(options: {
         const panelId = opaqueId("panel");
         const holder: { onMessage?: (msg: unknown) => void } = {};
         const host = await capabilities.panels.open({ pluginId, installPath: options.installPath, panelPath: resolvePanelPath(String(spec.panel)), title, width, height, onMessage: (msg) => { try { holder.onMessage?.(msg); } catch (error) { onError(safeError(error)); } }, onClosed: () => { state.panels.delete(panelId); } });
-        state.panels.set(panelId, Object.assign(host, holder));
+        Object.defineProperty(host, "onMessage", {
+          get: () => holder.onMessage,
+          set: (callback: ((msg: unknown) => void) | undefined) => {
+            holder.onMessage = callback;
+          },
+          configurable: true,
+          enumerable: true,
+        });
+
+        state.panels.set(panelId, host);
         return { panelId };
       },
       panelShow: async (panelId: unknown) => { await requirePanel(state, panelId).show(); },

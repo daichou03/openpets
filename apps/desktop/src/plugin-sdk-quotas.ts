@@ -37,7 +37,7 @@ export const pluginSdkQuotas = {
   activeBubbles: 8,
   activePanels: 3,
   deliveriesPerMinute: 9,
-  spawnedPets: 4,
+  spawnedPets: 8,
   secretBytes: 8 * 1024,
   dynamicTextChars: 2000,
   markdownChars: 1000,
